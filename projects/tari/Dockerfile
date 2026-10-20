@@ -1,9 +1,9 @@
 # Scanner image for https://github.com/tari-project/tari (development).
 #
 # The audit runs offline, so this build fetches every crate in Cargo.lock, then builds the workspace in the dev profile
-# (debug assertions and overflow checks on, line-tables-only debug info): the libraries, the binaries (minotari_node, minotari_console_wallet,
-# minotari_miner, minotari_merge_mining_proxy, ...) and every test binary. threat_model.md, next to this file, says how
-# to run them.
+# (debug assertions and overflow checks on, line-tables-only debug info): the libraries, the binaries (minotari_node,
+# minotari_console_wallet, minotari_miner, minotari_merge_mining_proxy, ...) and every test binary. threat_model.md,
+# next to this file, says how to run them.
 
 # rust-toolchain.toml pins the stable channel, which is what CI builds with.
 FROM rust:1-bookworm
