@@ -29,8 +29,9 @@ RUN cargo fetch --locked
 RUN cargo build --locked --workspace --lib --bins \
     && cargo test --locked --workspace --no-run
 
-# Run the unit tests so the log shows the image works, without letting a failure abort the build. Some tari_core tests
-# share state and flake when run in parallel, so run them on one thread. The cucumber suite (integration_tests) spins
-# up whole networks and is not run here.
-RUN cargo test --locked --workspace --lib --exclude tari_integration_tests -- --test-threads=1 \
-    || echo "WARNING: cargo test reported failures"
+# Run the unit tests so the log shows the image works, without letting a failure abort the build. `--lib` keeps the
+# cucumber suite (integration_tests, which spins up whole networks) out, and matches the package set built above so
+# nothing recompiles. The scanner bounds the whole image build, so the run is cut off after 8 minutes. Some tari_core
+# tests share state and can flake in parallel; run them with `-- --test-threads=1` when investigating.
+RUN timeout 480 cargo test --locked --workspace --lib \
+    || echo "WARNING: cargo test reported failures or was cut off"
